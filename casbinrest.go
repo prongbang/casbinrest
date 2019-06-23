@@ -5,8 +5,8 @@ import (
 
 	"github.com/casbin/casbin"
 
+	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/labstack/echo/v4"
 )
 
 type (

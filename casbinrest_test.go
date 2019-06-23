@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/casbin/casbin"
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo"
 	"github.com/prongbang/casbinrest"
 	"github.com/stretchr/testify/assert"
 )
