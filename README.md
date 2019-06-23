@@ -25,6 +25,9 @@ import (
 	"github.com/prongbang/casbinrest"
 )
 
+type redisDataSource struct {
+}
+
 func NewRedisDataSource() casbinrest.DataSource {
 	return &redisDataSource{}
 }
@@ -50,7 +53,7 @@ func main() {
 		return c.JSON(http.StatusOK, "OK")
     })
 
-    e.GET("/login", func(c echo.Context) error {
+	e.GET("/login", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, "OK")
     })
     
