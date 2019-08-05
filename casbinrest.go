@@ -12,16 +12,9 @@ import (
 type (
 	// Config defines the config for CasbinAuth middleware.
 	Config struct {
-		// Skipper defines a function to skip middleware.
-		Skipper middleware.Skipper
-
-		// Enforcer CasbinAuth main rule.
-		// Required.
+		Skipper  middleware.Skipper
 		Enforcer *casbin.Enforcer
-
-		// Source Auth in database.
-		// Required.
-		Source DataSource
+		Source   DataSource
 	}
 )
 
@@ -38,9 +31,6 @@ type DataSource interface {
 }
 
 // Middleware returns a CasbinAuth middleware.
-//
-// For valid credentials it calls the next handler.
-// For missing or invalid credentials, it sends "401 - Unauthorized" response.
 func Middleware(ce *casbin.Enforcer, sc DataSource) echo.MiddlewareFunc {
 	c := DefaultConfig
 	c.Enforcer = ce
@@ -49,7 +39,6 @@ func Middleware(ce *casbin.Enforcer, sc DataSource) echo.MiddlewareFunc {
 }
 
 // MiddlewareWithConfig returns a CasbinAuth middleware with config.
-// See `Middleware()`.
 func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 	if config.Skipper == nil {
 		config.Skipper = DefaultConfig.Skipper
@@ -75,8 +64,7 @@ func (a *Config) GetRole(c echo.Context) string {
 	return a.Source.GetRoleByToken(reqToken)
 }
 
-// CheckPermission checks the role/method/path combination from the request.
-// Returns true (permission granted) or false (permission forbidden)
+// CheckPermission checks the role/path/method combination from the request.
 func (a *Config) CheckPermission(c echo.Context) bool {
 	return a.Enforcer.Enforce(a.GetRole(c), c.Request().URL.Path, c.Request().Method)
 }
