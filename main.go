@@ -1,20 +1,3 @@
-# Casbin RESTful Adapter on Echo Web Framework
-
-Casbin RESTful adapter for Casbin https://github.com/casbin/casbin
-
-[![Build Status](http://img.shields.io/travis/prongbang/casbinrest.svg)](https://travis-ci.org/prongbang/casbinrest)
-[![Codecov](https://img.shields.io/codecov/c/github/prongbang/casbinrest.svg)](https://codecov.io/gh/prongbang/casbinrest)
-[![Go Report Card](https://goreportcard.com/badge/github.com/prongbang/casbinrest)](https://goreportcard.com/report/github.com/prongbang/casbinrest)
-
-## Installation:
-
-```
-go get github.com/prongbang/casbinrest
-```
-
-## Usage:
-
-```go
 package main
 
 import (
@@ -59,4 +42,3 @@ func main() {
 	
 	e.Logger.Fatal(e.Start(":1323"))
 }
-```
