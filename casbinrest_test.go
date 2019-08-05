@@ -25,6 +25,8 @@ func (r *redisDataSource) GetRoleByToken(reqToken string) string {
 	role := "anonymous"
 	if reqToken == mockAdminToken {
 		role = "admin"
+	} else if reqToken == "TOKEN_DBA" {
+		role = "dba"
 	}
 	return role
 }
@@ -45,6 +47,25 @@ func TestRoleAdminStatusOK(t *testing.T) {
 	})
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", mockAdminToken))
+	rec := httptest.NewRecorder()
+
+	// When
+	e.ServeHTTP(rec, req)
+
+	// Then
+	assert.Equal(t, http.StatusOK, rec.Code)
+}
+
+func TestRoleDbaStatusOK(t *testing.T) {
+	// Given
+	ce := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
+	e := echo.New()
+	e.Use(casbinrest.Middleware(ce, redisSource))
+	e.POST("/dba", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, "OK")
+	})
+	req := httptest.NewRequest(http.MethodPost, "/dba", nil)
+	req.Header.Set("Authorization", "Bearer TOKEN_DBA")
 	rec := httptest.NewRecorder()
 
 	// When
