@@ -1,3 +1,4 @@
 p, admin, /*, *
 p, anonymous, /login, GET
-p, dba, /dba, (GET|POST)
+p, dba, /dba, GET
+p, dba, /dba, POST
