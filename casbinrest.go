@@ -66,8 +66,5 @@ func (a *Config) GetRole(c echo.Context) string {
 
 // CheckPermission checks the role/path/method combination from the request.
 func (a *Config) CheckPermission(c echo.Context) bool {
-	if result, err := a.Enforcer.Enforce(a.GetRole(c), c.Request().URL.Path, c.Request().Method); err == nil {
-		return result
-	}
-	return false
+	return a.Enforcer.Enforce(a.GetRole(c), c.Request().URL.Path, c.Request().Method)
 }
