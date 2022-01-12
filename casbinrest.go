@@ -1,12 +1,11 @@
 package casbinrest
 
 import (
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"strings"
 
-	"github.com/casbin/casbin"
-
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/casbin/casbin/v2"
 )
 
 type (
@@ -45,7 +44,8 @@ func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 	}
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			if config.Skipper(c) || config.CheckPermission(c) {
+			pass, err := config.CheckPermission(c)
+			if config.Skipper(c) || (pass && err == nil) {
 				return next(c)
 			}
 			return echo.ErrForbidden
@@ -65,6 +65,6 @@ func (a *Config) GetRole(c echo.Context) string {
 }
 
 // CheckPermission checks the role/path/method combination from the request.
-func (a *Config) CheckPermission(c echo.Context) bool {
+func (a *Config) CheckPermission(c echo.Context) (bool, error) {
 	return a.Enforcer.Enforce(a.GetRole(c), c.Request().URL.Path, c.Request().Method)
 }
