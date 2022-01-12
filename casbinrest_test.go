@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/casbin/casbin"
-	"github.com/labstack/echo"
+	"github.com/casbin/casbin/v2"
+	"github.com/labstack/echo/v4"
 	"github.com/prongbang/casbinrest"
 	"github.com/stretchr/testify/assert"
 )
@@ -39,7 +39,7 @@ func init() {
 
 func TestRoleAdminStatusOK(t *testing.T) {
 	// Given
-	ce := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
+	ce, _ := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
 	e := echo.New()
 	e.Use(casbinrest.Middleware(ce, redisSource))
 	e.GET("/", func(c echo.Context) error {
@@ -58,7 +58,7 @@ func TestRoleAdminStatusOK(t *testing.T) {
 
 func TestRoleDbaStatusOK(t *testing.T) {
 	// Given
-	ce := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
+	ce, _ := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
 	e := echo.New()
 	e.Use(casbinrest.Middleware(ce, redisSource))
 	e.POST("/dba", func(c echo.Context) error {
@@ -77,7 +77,7 @@ func TestRoleDbaStatusOK(t *testing.T) {
 
 func TestRoleAdminStatusForbidden(t *testing.T) {
 	// Given
-	ce := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
+	ce, _ := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
 	e := echo.New()
 	e.Use(casbinrest.Middleware(ce, redisSource))
 	e.GET("/", func(c echo.Context) error {
@@ -96,7 +96,7 @@ func TestRoleAdminStatusForbidden(t *testing.T) {
 
 func TestRoleAnonymousWithoutTokenStatusForbidden(t *testing.T) {
 	// Given
-	ce := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
+	ce, _ := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
 	e := echo.New()
 	e.Use(casbinrest.Middleware(ce, redisSource))
 	e.GET("/logout", func(c echo.Context) error {
@@ -114,7 +114,7 @@ func TestRoleAnonymousWithoutTokenStatusForbidden(t *testing.T) {
 
 func TestRoleAnonymousTokenStatusOK(t *testing.T) {
 	// Given
-	ce := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
+	ce, _ := casbin.NewEnforcer("example/auth_model.conf", "example/policy.csv")
 	e := echo.New()
 	e.Use(casbinrest.Middleware(ce, redisSource))
 	e.GET("/login", func(c echo.Context) error {
