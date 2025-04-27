@@ -1,6 +1,5 @@
 # casbinrest 🔐
 
-[![Build Status](http://img.shields.io/travis/prongbang/casbinrest.svg)](https://travis-ci.org/prongbang/casbinrest)
 [![Codecov](https://img.shields.io/codecov/c/github/prongbang/casbinrest.svg)](https://codecov.io/gh/prongbang/casbinrest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/prongbang/casbinrest)](https://goreportcard.com/report/github.com/prongbang/casbinrest)
 [![Go Reference](https://pkg.go.dev/badge/github.com/prongbang/casbinrest.svg)](https://pkg.go.dev/github.com/prongbang/casbinrest)
